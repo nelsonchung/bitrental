@@ -1,0 +1,22 @@
+[
+    {
+        "account": "Peter",
+        "password": "peter",
+        "privilege": "Admin" 
+    },
+    {
+        "account": "Nelson",
+        "password": "nelson",
+        "privilege": "Admin" 
+    },
+    {
+        "account": "Dada",
+        "password": "dada",
+        "privilege": "Admin" 
+    },
+    {
+        "account": "Driver",
+        "password": "driver",
+        "privilege": "General" 
+    }
+]
