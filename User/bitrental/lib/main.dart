@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'register_page.dart';
 import 'home_page.dart';
-import 'post_case_page.dart'; // 新增的頁面
-import 'login.dart'; // 新增的頁面
+import 'post_case_page.dart';
+import 'login.dart';
+import 'flightinfo_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -125,6 +126,16 @@ class MyHomePage extends StatelessWidget {
                     );
                   },
                   child: const Text('進入派單系統'),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FlightInfoApp()),
+                    );
+                  },
+                  child: const Text('進入航班系統'),
                 ),
               ],
             ),
