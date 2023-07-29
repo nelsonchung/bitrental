@@ -1,0 +1,24 @@
+# This is a generated file; do not edit or check into version control.
+cloud_firestore=/Users/nelsonchung/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.4/
+cloud_firestore_web=/Users/nelsonchung/.pub-cache/hosted/pub.dev/cloud_firestore_web-3.6.3/
+firebase_auth=/Users/nelsonchung/.pub-cache/hosted/pub.dev/firebase_auth-4.7.2/
+firebase_auth_web=/Users/nelsonchung/.pub-cache/hosted/pub.dev/firebase_auth_web-5.6.2/
+firebase_core=/Users/nelsonchung/.pub-cache/hosted/pub.dev/firebase_core-2.15.0/
+firebase_core_web=/Users/nelsonchung/.pub-cache/hosted/pub.dev/firebase_core_web-2.6.0/
+flutter_plugin_android_lifecycle=/Users/nelsonchung/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.15/
+geolocator=/Users/nelsonchung/.pub-cache/hosted/pub.dev/geolocator-9.0.2/
+geolocator_android=/Users/nelsonchung/.pub-cache/hosted/pub.dev/geolocator_android-4.2.0/
+geolocator_apple=/Users/nelsonchung/.pub-cache/hosted/pub.dev/geolocator_apple-2.2.7/
+geolocator_web=/Users/nelsonchung/.pub-cache/hosted/pub.dev/geolocator_web-2.1.6/
+geolocator_windows=/Users/nelsonchung/.pub-cache/hosted/pub.dev/geolocator_windows-0.1.1/
+google_maps_flutter=/Users/nelsonchung/.pub-cache/hosted/pub.dev/google_maps_flutter-2.3.1/
+google_maps_flutter_android=/Users/nelsonchung/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.4.15/
+google_maps_flutter_ios=/Users/nelsonchung/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.2.3/
+google_maps_flutter_web=/Users/nelsonchung/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.5.1/
+google_sign_in=/Users/nelsonchung/.pub-cache/hosted/pub.dev/google_sign_in-6.1.4/
+google_sign_in_android=/Users/nelsonchung/.pub-cache/hosted/pub.dev/google_sign_in_android-6.1.18/
+google_sign_in_ios=/Users/nelsonchung/.pub-cache/hosted/pub.dev/google_sign_in_ios-5.6.2/
+google_sign_in_web=/Users/nelsonchung/.pub-cache/hosted/pub.dev/google_sign_in_web-0.12.0+2/
+webview_flutter=/Users/nelsonchung/.pub-cache/hosted/pub.dev/webview_flutter-2.8.0/
+webview_flutter_android=/Users/nelsonchung/.pub-cache/hosted/pub.dev/webview_flutter_android-2.10.4/
+webview_flutter_wkwebview=/Users/nelsonchung/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-2.9.5/

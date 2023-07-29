@@ -1,22 +1,73 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'home_page.dart';
-import 'main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class LoginPage extends StatelessWidget {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
-  LoginPage({Key? key}) : super(key: key);
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  // Method to handle Google Sign In
+  Future<void> _handleGoogleSignIn(BuildContext context) async {
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        // User cancelled the Google Sign In process
+        return;
+      }
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth = await googleUser.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Sign in to Firebase using the Google credential
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+      if (userCredential.user != null) {
+        // Google Sign In was successful, you can now use the userCredential
+        // to perform further actions, such as registering or logging in the user.
+
+        // Example: Get the user's email address and display it
+        print('User Email: ${userCredential.user!.email}');
+
+        // Show a success message using SnackBar
+        final snackBar = SnackBar(content: Text('登入成功！'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
+        // Something went wrong during Firebase sign in
+        // Show a failure message using SnackBar
+        final snackBar = SnackBar(content: Text('登入失敗！'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    } catch (error) {
+      // Handle any errors that occurred during the Google Sign In process
+      print('Error occurred during Google Sign In: $error');
+
+      // Show a failure message using SnackBar
+      final snackBar = SnackBar(content: Text('登入失敗！'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } finally {
+      // Clean up any resources if needed
+      // For example, you might want to clear user inputs or loading indicators.
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const SizedBox.shrink(),
+        title: null,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -33,21 +84,20 @@ class LoginPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // ignore: prefer_const_constructors
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Image(
-                      image: AssetImage('assets/icon_car.png'),
+                  children: [
+                    Image.asset(
+                      'assets/icon_car.png',
                       height: 100,
                     ),
-                    SizedBox(width: 10),
-                    Text(
+                    const SizedBox(width: 10),
+                    const Text(
                       'BIT RENTAL',
                       style: TextStyle(
                         fontSize: 32,
-                        color: Color(0xFFBBA27D),
-                        fontFamily: 'Bungee Inline',
+                        color: Color.fromRGBO(187, 162, 125, 1),
+                        fontFamily: 'BungeeInline',
                       ),
                     ),
                   ],
@@ -57,11 +107,6 @@ class LoginPage extends StatelessWidget {
                   decoration: const InputDecoration(
                     labelText: '用戶名',
                   ),
-                  controller: _usernameController,
-                  onChanged: (value) {
-                    // 將用戶名存儲在狀態中，以供後續使用
-                    // 例如：setState(() { username = value; });
-                  },
                 ),
                 const SizedBox(height: 10),
                 TextField(
@@ -69,11 +114,6 @@ class LoginPage extends StatelessWidget {
                     labelText: '密碼',
                   ),
                   obscureText: true,
-                  controller: _passwordController,
-                  onChanged: (value) {
-                    // 將密碼存儲在狀態中，以供後續使用
-                    // 例如：setState(() { password = value; });
-                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -82,7 +122,7 @@ class LoginPage extends StatelessWidget {
                       onPressed: () {
                         // 忘記密碼點擊事件
                       },
-                      child: const Text('忘記密碼？'),
+                      child: const Text('Forgot password?'),
                     ),
                   ],
                 ),
@@ -91,9 +131,7 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        _checkCredentials(context);
-                      },
+                      onPressed: () => _handleGoogleSignIn(context), // Call the _handleGoogleSignIn method with context
                       child: const Text('登入'),
                     ),
                     const SizedBox(width: 10),
@@ -111,46 +149,5 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> _checkCredentials(BuildContext context) async {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
-
-    // 模擬延遲等待一秒
-    await Future.delayed(const Duration(milliseconds: 500));
-
-    final jsonString = await rootBundle.loadString('assets/account.json');
-    final accounts = json.decode(jsonString);
-
-    for (var account in accounts) {
-      if (account['account'] == username && account['password'] == password) {
-        // 跳轉到主頁面
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(
-          context,
-          // ignore: prefer_const_constructors
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-        return;
-      }
-    }
-
-    // 顯示錯誤消息
-    // ignore: use_build_context_synchronously
-    _showSnackBar(context, '用戶名或密碼錯誤');
-
-    await Future.delayed(const Duration(milliseconds: 500));
-
-    // ignore: use_build_context_synchronously
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => MyApp()),
-    );
-  }
-
-  void _showSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

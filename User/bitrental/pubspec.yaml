@@ -40,12 +40,15 @@ dependencies:
   # added by Nelson
   table_calendar: ^3.0.2
   flutter_launcher_icons: ^0.10.0
-  cloud_firestore: ^4.8.2
+  cloud_firestore: ^4.8.4
   google_maps_flutter: ^2.3.1
   geolocator: ^9.0.2
   http: ^1.1.0
   html: ^0.15.4
   webview_flutter: ^2.0.14
+  google_sign_in: ^6.1.4
+  firebase_auth: ^4.7.2
+  firebase_core: ^2.15.0
   
 dev_dependencies:
   flutter_test:

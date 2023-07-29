@@ -4,6 +4,7 @@ import 'home_page.dart';
 import 'post_case_page.dart';
 import 'login.dart';
 import 'flightinfo_page.dart';
+import 'login_google.dart';
 
 void main() => runApp(MyApp());
 
@@ -83,7 +84,8 @@ class MyHomePage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
+                          //MaterialPageRoute(builder: (context) => LoginPage()),
+                          MaterialPageRoute(builder: (context) => LoginGooglePage()),
                         );
                       },
                       // ignore: prefer_const_constructors
