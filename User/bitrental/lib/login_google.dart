@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:bitrental/profile_page.dart'; // 引入 profile_page.dart
+import 'package:bitrental/profile_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+
 
 class LoginGooglePage extends StatefulWidget {
   const LoginGooglePage({Key? key}) : super(key: key);
@@ -11,7 +14,6 @@ class LoginGooglePage extends StatefulWidget {
 }
 
 class _LoginGooglePageState extends State<LoginGooglePage> {
-  // Method to handle Google Sign In
   Future<void> _handleGoogleSignIn(BuildContext context) async {
     try {
       // Trigger the authentication flow
@@ -27,23 +29,24 @@ class _LoginGooglePageState extends State<LoginGooglePage> {
       );
 
       // Once signed in, return the UserCredential
-      UserCredential? userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
       // Show a success message using SnackBar
       final snackBar = SnackBar(content: Text('登入成功！'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-      // Pass the user data to ProfilePage and navigate to it
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ProfilePage(
-            displayName: userCredential?.user?.displayName,
-            email: userCredential?.user?.email,
-            photoUrl: userCredential?.user?.photoURL,
-          ),
-        ),
-      );
+      // Save user data to shared preferences using JSON serialization
+      final userData = {
+        'id': userCredential.user?.uid,
+        'displayName': userCredential.user?.displayName,
+        'email': userCredential.user?.email,
+        'photoUrl': userCredential.user?.photoURL,
+      };
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('user_data', jsonEncode(userData));
+
+      // Navigate back to the main page (MyHomePage) and pass the userCredential
+      Navigator.pop(context, userCredential);
     } catch (error) {
       // Handle any errors that occurred during the Google Sign In process
       print('Error occurred during Google Sign In: $error');
@@ -51,9 +54,6 @@ class _LoginGooglePageState extends State<LoginGooglePage> {
       // Show a failure message using SnackBar
       final snackBar = SnackBar(content: Text('登入失敗！'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } finally {
-      // Clean up any resources if needed
-      // For example, you might want to clear user inputs or loading indicators.
     }
   }
 

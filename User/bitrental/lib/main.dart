@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'register_page.dart';
-import 'home_page.dart';
-import 'post_case_page.dart';
-import 'login.dart';
-import 'flightinfo_page.dart';
-import 'profile_page.dart';
-import 'login_google.dart';
+import 'package:bitrental/register_page.dart';
+import 'package:bitrental/home_page.dart';
+import 'package:bitrental/post_case_page.dart';
+import 'package:bitrental/login.dart';
+import 'package:bitrental/flightinfo_page.dart';
+import 'package:bitrental/profile_page.dart';
+import 'package:bitrental/login_google.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,19 +18,28 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BIT RENTAL designed by Nelson',
+      title: 'BIT RENTAL 設計：Nelson',
       home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  UserCredential? userCredential;
+
+  void _onGoogleLoginSuccess(UserCredential result) {
+    setState(() {
+      userCredential = result;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,24 +88,13 @@ class MyHomePage extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
-                        // Perform Google Sign-In and get user credentials
-                        final userCredential = await Navigator.push(
+                        final result = await Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginGooglePage()),
+                          MaterialPageRoute(builder: (context) => LoginGooglePage()), // 不再傳遞 database 參數
                         );
 
-                        // Check if userCredential is not null (user signed in successfully)
-                        if (userCredential != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProfilePage(
-                                displayName: userCredential.user?.displayName,
-                                email: userCredential.user?.email,
-                                photoUrl: userCredential.user?.photoURL,
-                              ),
-                            ),
-                          );
+                        if (result != null) {
+                          _onGoogleLoginSuccess(result);
                         }
                       },
                       child: Text('登入'),
@@ -138,7 +139,7 @@ class MyHomePage extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => FlightInfoApp()),
                     );
                   },
-                  child: const Text('進入航班系統'),
+                  child: const Text('查詢航班系統'),
                 ),
               ],
             ),
