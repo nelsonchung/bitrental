@@ -105,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                       child: Text('登入'),
                     ),
+                    /* 臨時取消此功能
                     SizedBox(width: 10),
                     ElevatedButton(
                       onPressed: () {
@@ -115,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                       child: Text('註冊'),
                     ),
+                    */
                   ],
                 ),
                 SizedBox(height: 20),
