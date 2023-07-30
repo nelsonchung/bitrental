@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:bitrental/register_page.dart';
 import 'package:bitrental/home_page.dart';
 import 'package:bitrental/post_case_page.dart';
-import 'package:bitrental/login.dart';
 import 'package:bitrental/flightinfo_page.dart';
 import 'package:bitrental/profile_page.dart';
-import 'package:bitrental/login_google.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:bitrental/profile_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BIT RENTAL designed by Nelson',
+      title: 'BIT RENTAL 設計：Nelson',
       home: MyHomePage(),
     );
   }
@@ -39,12 +39,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  UserCredential? userCredential;
+  Map<String, dynamic>? userData;
 
-  void _onGoogleLoginSuccess(UserCredential result) {
+  void _onGoogleLoginSuccess(Map<String, dynamic> data) {
     setState(() {
-      userCredential = result;
+      userData = data;
+      _saveUserDataToStorage(userData!);
     });
+  }
+
+  void _saveUserDataToStorage(Map<String, dynamic> data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user_data', json.encode(data));
   }
 
   @override
@@ -89,36 +95,29 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
                 SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginGooglePage()), // 不再傳遞 database 參數
-                        );
-
-                        if (result != null) {
-                          _onGoogleLoginSuccess(result);
-                        }
-                      },
-                      child: Text('登入'),
-                    ),
-                    /* 臨時取消此功能
-                    SizedBox(width: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => RegisterPage()),
-                        );
-                      },
-                      child: Text('註冊'),
-                    ),
-                    */
-                  ],
+                ElevatedButton(
+                  onPressed: () async {
+                    // 模擬 Google 登入，返回使用者資訊
+                    Map<String, dynamic> result = await _simulateGoogleLogin();
+                    if (result.isNotEmpty) {
+                      _onGoogleLoginSuccess(result);
+                    }
+                  },
+                  child: Text('登入'),
                 ),
+                /* 臨時取消此功能
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegisterPage()),
+                    );
+                  },
+                  child: Text('註冊'),
+                ),
+                */
+
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
@@ -156,5 +155,52 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}
 
+  // 模擬 Google 登入的函式，返回使用者資訊
+  Future<Map<String, dynamic>> _simulateGoogleLogin() async {
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Show a success message using SnackBar
+      final snackBar = SnackBar(content: Text('登入成功！'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      // Save user data to shared preferences using JSON serialization
+      final userData = {
+        'id': userCredential.user?.uid,
+        'displayName': userCredential.user?.displayName,
+        'email': userCredential.user?.email,
+        'photoUrl': userCredential.user?.photoURL,
+      };
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('user_data', jsonEncode(userData));
+
+      // Navigate back to the main page (MyHomePage) and pass the userCredential
+      //Navigator.pop(context, userCredential);
+
+      return userData;
+    } catch (error) {
+      // Handle any errors that occurred during the Google Sign In process
+      print('Error occurred during Google Sign In: $error');
+
+      // Show a failure message using SnackBar
+      final snackBar = SnackBar(content: Text('登入失敗！'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      return {};
+    }
+  }
+}
