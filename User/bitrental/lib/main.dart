@@ -4,17 +4,21 @@ import 'home_page.dart';
 import 'post_case_page.dart';
 import 'login.dart';
 import 'flightinfo_page.dart';
+import 'profile_page.dart';
 import 'login_google.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  // ignore: prefer_const_constructors_in_immutables
   MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // ignore: prefer_const_constructors
     return MaterialApp(
       title: 'BIT RENTAL designed by Nelson',
       home: MyHomePage(),
@@ -23,7 +27,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  // ignore: prefer_const_constructors_in_immutables
   MyHomePage({Key? key}) : super(key: key);
 
   @override
@@ -33,17 +36,13 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        // ignore: prefer_const_constructors
         title: Text('BIT RENTAL'),
       ),
       body: Stack(
         children: [
           Container(
-            // ignore: prefer_const_constructors
             decoration: BoxDecoration(
-              // ignore: prefer_const_constructors
               image: DecorationImage(
-                // ignore: prefer_const_constructors
                 image: AssetImage('assets/background.png'),
                 fit: BoxFit.cover,
               ),
@@ -57,63 +56,66 @@ class MyHomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/icon_car.png', // 添加图片的路径
+                      'assets/icon_car.png',
                       height: 100,
                     ),
-                    // ignore: prefer_const_constructors
                     SizedBox(width: 0),
-                    // ignore: prefer_const_constructors
                     Text(
                       'BIT RENTAL',
-                      // ignore: prefer_const_constructors
                       style: TextStyle(
                         fontSize: 32,
-                        // ignore: prefer_const_constructors
                         color: Color.fromRGBO(187, 162, 125, 1),
                         fontFamily: 'BungeeInline',
                       ),
                     ),
                   ],
                 ),
-                // ignore: prefer_const_constructors
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
+                      onPressed: () async {
+                        // Perform Google Sign-In and get user credentials
+                        final userCredential = await Navigator.push(
                           context,
-                          //MaterialPageRoute(builder: (context) => LoginPage()),
                           MaterialPageRoute(builder: (context) => LoginGooglePage()),
                         );
+
+                        // Check if userCredential is not null (user signed in successfully)
+                        if (userCredential != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfilePage(
+                                displayName: userCredential.user?.displayName,
+                                email: userCredential.user?.email,
+                                photoUrl: userCredential.user?.photoURL,
+                              ),
+                            ),
+                          );
+                        }
                       },
-                      // ignore: prefer_const_constructors
                       child: Text('登入'),
                     ),
-                    // ignore: prefer_const_constructors
                     SizedBox(width: 10),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              // ignore: prefer_const_constructors
-                              builder: (context) => RegisterPage()),
+                          MaterialPageRoute(builder: (context) => RegisterPage()),
                         );
                       },
-                      // ignore: prefer_const_constructors
                       child: Text('註冊'),
                     ),
                   ],
                 ),
-                // ignore: prefer_const_constructors
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      MaterialPageRoute(builder: (context) => HomePage()),
                     );
                   },
                   child: const Text('進入主畫面'),
@@ -123,8 +125,7 @@ class MyHomePage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const PostCasePage()),
+                      MaterialPageRoute(builder: (context) => const PostCasePage()),
                     );
                   },
                   child: const Text('進入派單系統'),
