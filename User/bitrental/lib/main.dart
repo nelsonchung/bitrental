@@ -20,7 +20,7 @@ void main() async {
 
 Future<void> _clearUserData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.remove('userData');
+  prefs.remove('user_data');
 }
 
 class MyApp extends StatelessWidget {
