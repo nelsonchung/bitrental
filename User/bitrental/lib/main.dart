@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BIT RENTAL 設計：Nelson',
+      title: 'BIT RENTAL designed by Nelson',
       home: MyHomePage(),
     );
   }
