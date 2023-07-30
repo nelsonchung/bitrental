@@ -67,7 +67,7 @@ class _FleetPageState extends State<FleetPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Fleet'),
+        title: const Text('車輛管理'),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

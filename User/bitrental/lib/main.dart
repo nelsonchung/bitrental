@@ -14,7 +14,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await _clearUserData();
   runApp(MyApp());
+}
+
+Future<void> _clearUserData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove('userData');
 }
 
 class MyApp extends StatelessWidget {
@@ -149,3 +155,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+

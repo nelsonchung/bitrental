@@ -40,7 +40,7 @@ class _ActivityPageState extends State<ActivityPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Activity'),
+        title: const Text('活動資訊'),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -53,12 +53,14 @@ class _ActivityPageState extends State<ActivityPage> {
         ),
         child: Stack(
           children: [
+            /*
             Positioned.fill(
               child: Image.asset(
                 'assets/sample_map.png',
                 fit: BoxFit.cover,
               ),
             ),
+            */
             // ignore: prefer_const_constructors
             Center(
               child: const Text('Activity Page'),

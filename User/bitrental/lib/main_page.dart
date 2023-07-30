@@ -11,7 +11,7 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Main'),
+        title: const Text('案件資訊'),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

@@ -19,7 +19,7 @@ class _SchedulePageState extends State<SchedulePage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        //title: const Text('Schedule'),
+        title: const Text('行程'),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -36,7 +36,7 @@ class _SchedulePageState extends State<SchedulePage> {
             children: [
               const SizedBox(height: 20),
               // ignore: prefer_const_constructors
-              Text('Schedule Page'),
+              //Text('Schedule Page'),
               const SizedBox(height: 20),
               Expanded(
                 child: Center(
