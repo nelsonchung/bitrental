@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'boss_home_page.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,55 +14,51 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Method to handle Google Sign In
-  Future<void> _handleGoogleSignIn(BuildContext context) async {
-    try {
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
-      if (googleUser == null) {
-        // User cancelled the Google Sign In process
-        return;
+  List<dynamic>? _accountsData;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAccountData();
+  }
+
+  Future<void> _loadAccountData() async {
+    String jsonString = await rootBundle.loadString('assets/account.json');
+    setState(() {
+      _accountsData = json.decode(jsonString);
+    });
+  }
+
+  // Method to handle Local Login
+  Future<void> _handleLocalLogin(BuildContext context) async {
+    String username = _usernameController.text.trim();
+    String password = _passwordController.text;
+
+    if (_accountsData == null) {
+      return;
+    }
+
+    bool loginSuccessful = false;
+    for (var account in _accountsData!) {
+      if (account['account'] == username && account['password'] == password) {
+        loginSuccessful = true;
+        break;
       }
+    }
 
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth = await googleUser.authentication;
-
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+    if (loginSuccessful) {
+      // If login successful, navigate to BossHomePage
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => BossHomePage()),
       );
-
-      // Sign in to Firebase using the Google credential
-      final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-
-      if (userCredential.user != null) {
-        // Google Sign In was successful, you can now use the userCredential
-        // to perform further actions, such as registering or logging in the user.
-
-        // Example: Get the user's email address and display it
-        print('User Email: ${userCredential.user!.email}');
-
-        // Show a success message using SnackBar
-        final snackBar = SnackBar(content: Text('登入成功！'));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      } else {
-        // Something went wrong during Firebase sign in
-        // Show a failure message using SnackBar
-        final snackBar = SnackBar(content: Text('登入失敗！'));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-    } catch (error) {
-      // Handle any errors that occurred during the Google Sign In process
-      print('Error occurred during Google Sign In: $error');
-
-      // Show a failure message using SnackBar
+    } else {
+      // If login failed, show SnackBar with login failed message
       final snackBar = SnackBar(content: Text('登入失敗！'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } finally {
-      // Clean up any resources if needed
-      // For example, you might want to clear user inputs or loading indicators.
     }
   }
 
@@ -104,12 +104,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
+                  controller: _usernameController,
                   decoration: const InputDecoration(
                     labelText: '用戶名',
                   ),
                 ),
                 const SizedBox(height: 10),
                 TextField(
+                  controller: _passwordController,
                   decoration: const InputDecoration(
                     labelText: '密碼',
                   ),
@@ -131,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () => _handleGoogleSignIn(context), // Call the _handleGoogleSignIn method with context
+                      onPressed: () => _handleLocalLogin(context),
                       child: const Text('登入'),
                     ),
                     const SizedBox(width: 10),

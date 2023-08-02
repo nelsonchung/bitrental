@@ -3,7 +3,6 @@ import 'package:bitrental/register_page.dart';
 import 'package:bitrental/home_page.dart';
 import 'package:bitrental/post_case_page.dart';
 import 'package:bitrental/flightinfo_page.dart';
-import 'package:bitrental/profile_page.dart';
 import 'package:bitrental/login.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -55,6 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
     prefs.setString('user_data', json.encode(data));
   }
 
+  void _onEmployeeLogin() async {
+    Map<String, dynamic> result = await _simulateGoogleLogin();
+    if (result.isNotEmpty) {
+      _onGoogleLoginSuccess(result);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,13 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () async {
-                    // 模擬 Google 登入，返回使用者資訊
-                    Map<String, dynamic> result = await _simulateGoogleLogin();
-                    if (result.isNotEmpty) {
-                      _onGoogleLoginSuccess(result);
-                    }
-                  },
+                  onPressed: _onEmployeeLogin,
                   child: Text('員工登入'),
                 ),
                 
