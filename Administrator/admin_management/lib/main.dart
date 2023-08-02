@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'dart:async';
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(AdminManagementApp());
 }
 
-// ignore: use_key_in_widget_constructors
 class AdminManagementApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,28 +24,38 @@ class AdminManagementApp extends StatelessWidget {
   }
 }
 
-// ignore: use_key_in_widget_constructors
 class MapPage extends StatefulWidget {
   @override
-  // ignore: library_private_types_in_public_api
   _MapPageState createState() => _MapPageState();
 }
 
 class _MapPageState extends State<MapPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // ignore: unused_field
   late GoogleMapController _controller;
-  // ignore: prefer_final_fields
   Set<Marker> _markers = {};
+
+  // Create a timer that will call _loadMarkers every 5 seconds
+  late Timer _timer;
 
   @override
   void initState() {
     super.initState();
     _loadMarkers();
+
+    // Start the timer when the widget is initialized
+    _timer = Timer.periodic(Duration(seconds: 5), (_) => _loadMarkers());
+  }
+
+  @override
+  void dispose() {
+    // Cancel the timer when the widget is disposed to avoid memory leaks
+    _timer.cancel();
+    super.dispose();
   }
 
   void _loadMarkers() async {
     final querySnapshot = await _firestore.collection('locations').get();
+    Set<Marker> newMarkers = {};
     for (final doc in querySnapshot.docs) {
       final data = doc.data();
       final marker = Marker(
@@ -51,25 +65,39 @@ class _MapPageState extends State<MapPage> {
           data['longitude'],
         ),
       );
-      _markers.add(marker);
+      newMarkers.add(marker);
     }
-    setState(() {});
+
+    // Update the markers on the map
+    setState(() {
+      _markers = newMarkers;
+    });
+
+    // Display the first marker's details using ScaffoldMessenger
+    if (_markers.isNotEmpty) {
+      String id = _markers.first.markerId.value;
+      double latitude = _markers.first.position.latitude;
+      double longitude = _markers.first.position.longitude;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('ID: $id, Latitude: $latitude, Longitude: $longitude'),
+          duration: Duration(seconds: 5), // Display for 5 seconds
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // ignore: prefer_const_constructors
         title: Text('Admin Management'),
       ),
       body: GoogleMap(
         onMapCreated: (GoogleMapController controller) {
           _controller = controller;
         },
-        // ignore: prefer_const_constructors
         initialCameraPosition: CameraPosition(
-          // ignore: prefer_const_constructors
           target: LatLng(0, 0),
           zoom: 2,
         ),

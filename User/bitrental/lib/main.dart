@@ -4,6 +4,8 @@ import 'package:bitrental/home_page.dart';
 import 'package:bitrental/post_case_page.dart';
 import 'package:bitrental/flightinfo_page.dart';
 import 'package:bitrental/profile_page.dart';
+import 'package:bitrental/login.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -103,8 +105,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       _onGoogleLoginSuccess(result);
                     }
                   },
-                  child: Text('登入'),
+                  child: Text('員工登入'),
                 ),
+                
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
+                  child: const Text('管理者登入'),
+                ),
+                
                 /* 臨時取消此功能
                 SizedBox(height: 20),
                 ElevatedButton(
@@ -117,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('註冊'),
                 ),
                 */
-
+                /*
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
@@ -128,6 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   child: const Text('進入主畫面'),
                 ),
+                */
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {

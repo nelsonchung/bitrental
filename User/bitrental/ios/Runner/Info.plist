@@ -64,5 +64,13 @@
 	<string></string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>需要存取您的位置資訊來顯示地圖</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>需要存取您的位置資訊來顯示地圖</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>需要存取您的位置資訊來顯示地圖</string>
+	<key>GMSApiKey</key>
+	<string>AIzaSyDBSAOn0WKx5cM0TJ_HNhYXFXjY6ywkas0</string>
 </dict>
 </plist>
