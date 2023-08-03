@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'fleet_page.dart';
-import 'schedule_page.dart';
-import 'activity_page.dart';
-import 'profile_page.dart';
-import 'main_page.dart';
+import 'boss_postcases_page.dart';
+import 'boss_show_drivers_position_page.dart';
 
 class BossHomePage extends StatefulWidget {
   const BossHomePage({Key? key}) : super(key: key);
@@ -17,11 +14,8 @@ class _BossHomePageState extends State<BossHomePage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    MainPage(), // 使用新的 MainPage
-    FleetPage(),
-    SchedulePage(),
-    ActivityPage(),
-    ProfilePage(),
+    BossShowDriversPositionPage(),
+    BossPostCasesPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -48,18 +42,6 @@ class _BossHomePageState extends State<BossHomePage> {
           BottomNavigationBarItem(
             icon: ImageIcon(AssetImage('assets/icon_fleet.png')),
             label: 'Fleet',
-          ),
-          BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/icon_calendar.png')),
-            label: 'Schedule',
-          ),
-          BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/icon_activity.png')),
-            label: 'Activity',
-          ),
-          BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/icon_profile.png')),
-            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,
