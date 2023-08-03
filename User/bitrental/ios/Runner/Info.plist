@@ -71,6 +71,6 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>需要存取您的位置資訊來顯示地圖</string>
 	<key>GMSApiKey</key>
-	<string>AIzaSyDBSAOn0WKx5cM0TJ_HNhYXFXjY6ywkas0</string>
+	<string>AIzaSyDytY4IBiZ-xfVU5vV49kdRKodl7XFG5fg</string>
 </dict>
 </plist>
