@@ -6,7 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({Key? key}) : super(key: key);
@@ -32,15 +32,17 @@ class _ActivityPageState extends State<ActivityPage> {
         desiredAccuracy: LocationAccuracy.high,
       );
       String userId = userData!['id'] ?? '未提供';
+      String displayName = userData!['displayName'] ?? '未提供';
       double latitude = position.latitude;
       double longitude = position.longitude;
       
       //show location information
-      final snackBar = SnackBar(content: Text('ID: $userId\n緯度: $latitude\n經度: $longitude'));
+      final snackBar = SnackBar(content: Text('ID: $userId\n司機名稱: $displayName\n緯度: $latitude\n經度: $longitude'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       
       FirebaseFirestore.instance.collection('locations').doc(userId).set({
         'id': userId,
+        'displayName': displayName,
         'latitude': latitude,
         'longitude': longitude,
       }, SetOptions(merge: true)).then((_) {
