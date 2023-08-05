@@ -142,8 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   },
                   child: const Text('進入主畫面'),
-                ),
-                */
+                ),*/
+                /*暫時不開放此功能
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
@@ -154,6 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   child: const Text('進入派單系統'),
                 ),
+                */
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
