@@ -130,7 +130,7 @@ Future<void> _initLocationPrivilege() async {
             */
             // ignore: prefer_const_constructors
             Center(
-              child: const Text('Activity Page'),
+              child: const Text('啟動定位功能，並確認是否有定位資訊顯示。\n每5秒更新一次'),
             ),
           ],
         ),

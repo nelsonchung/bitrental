@@ -17,10 +17,10 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    MainPage(), // 使用新的 MainPage
+    ActivityPage(), //ActivityPage()與MainPage()對調，為了使用者登入後，進入HomePage能夠自動啟動gps定位
     FleetPage(),
     SchedulePage(),
-    ActivityPage(),
+    MainPage(),
     ProfilePage(),
   ];
 
