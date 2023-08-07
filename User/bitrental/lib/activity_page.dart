@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:geolocator/geolocator.dart';
-import 'dart:async';
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({Key? key}) : super(key: key);
@@ -16,27 +12,38 @@ class ActivityPage extends StatefulWidget {
 }
 
 class _ActivityPageState extends State<ActivityPage> {
-  Timer? _timer;
   Map<String, dynamic>? userData;
 
   @override
   void initState() {
     super.initState();
-    // get Driver's id
+    // Get Driver's id
     _loadUserData();
-    _initLocationPrivilege();
 
-    // ignore: prefer_const_constructors
-    _timer = Timer.periodic(Duration(seconds: 5), (timer) async {
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
+    // Configure the plugin
+    bg.BackgroundGeolocation.ready(bg.Config(
+        desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
+        distanceFilter: 10.0,
+        heartbeatInterval: 5,
+        stopOnTerminate: false,
+        startOnBoot: true,
+        debug: true,
+        logLevel: bg.Config.LOG_LEVEL_VERBOSE,
+    )).then((bg.State state) {
+        if (!state.enabled) {
+          bg.BackgroundGeolocation.start();
+        }
+    });
+
+    // Listen for location updates
+    bg.BackgroundGeolocation.onLocation((bg.Location location) {
+      // Upload location to Firebase
       String userId = userData!['id'] ?? '未提供';
       String displayName = userData!['displayName'] ?? '未提供';
-      double latitude = position.latitude;
-      double longitude = position.longitude;
-      
-      //show location information
+      double latitude = location.coords.latitude;
+      double longitude = location.coords.longitude;
+
+      // Show location information
       final snackBar = SnackBar(content: Text('ID: $userId\n司機名稱: $displayName\n緯度: $latitude\n經度: $longitude'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       
@@ -46,7 +53,7 @@ class _ActivityPageState extends State<ActivityPage> {
         'latitude': latitude,
         'longitude': longitude,
       }, SetOptions(merge: true)).then((_) {
-        _showUploadSuccessSnackBar(userId, latitude, longitude); // 顯示上傳成功的提示訊息
+        _showUploadSuccessSnackBar(userId, displayName, latitude, longitude); // Show successful upload message
       }).catchError((error) {
         print('Error occurred while uploading data: $error');
         final snackBar = SnackBar(content: Text('位置資訊上傳失敗'));
@@ -54,26 +61,6 @@ class _ActivityPageState extends State<ActivityPage> {
       });
     });
   }
-
-Future<void> _initLocationPrivilege() async {
-  bool serviceEnabled;
-  LocationPermission permission;
-
-  serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  if (!serviceEnabled) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('請開啟定位服務')));
-    return;
-  }
-
-  permission = await Geolocator.checkPermission();
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('請允許位置權限')));
-      return;
-    }
-  }
-}
 
 
   Future<void> _loadUserData() async {
@@ -87,19 +74,13 @@ Future<void> _initLocationPrivilege() async {
     }
   }
 
-  void _showUploadSuccessSnackBar(String id, double latitude, double longitude) {
+  void _showUploadSuccessSnackBar(String id, String displayName, double latitude, double longitude) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('位置資訊上傳成功！\nID: $id\n緯度: $latitude\n經度: $longitude'),
+        content: Text('位置資訊上傳成功！\nID: $id\nDisplayName: $displayName\n緯度: $latitude\n經度: $longitude'),
         duration: Duration(seconds: 2),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 
   @override
@@ -120,15 +101,6 @@ Future<void> _initLocationPrivilege() async {
         ),
         child: Stack(
           children: [
-            /*
-            Positioned.fill(
-              child: Image.asset(
-                'assets/sample_map.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-            */
-            // ignore: prefer_const_constructors
             Center(
               child: const Text('啟動定位功能，並確認是否有定位資訊顯示。\n每5秒更新一次'),
             ),

@@ -64,12 +64,10 @@
 	<string></string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>需要存取您的位置資訊來顯示地圖</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>需要存取您的位置資訊來顯示地圖</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>需要存取您的位置資訊來顯示地圖</string>
+	<key>NSMotionUsageDescription</key>
+	<string>我們需要使用您的移動資訊來提供定位服務。</string>
 	<key>GMSApiKey</key>
 	<string>AIzaSyDytY4IBiZ-xfVU5vV49kdRKodl7XFG5fg</string>
 </dict>
