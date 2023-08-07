@@ -21,34 +21,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
-		<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>我們需要你的位置資訊來提供更好的服務。</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>我們需要你的位置資訊來提供更好的服務。</string>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-			<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
+	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -60,15 +33,46 @@
 			</array>
 		</dict>
 	</array>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>需要存取您的位置資訊來顯示地圖</string>
-	<key>NSMotionUsageDescription</key>
-	<string>我們需要使用您的移動資訊來提供定位服務。</string>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>GMSApiKey</key>
 	<string>AIzaSyDytY4IBiZ-xfVU5vV49kdRKodl7XFG5fg</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>需要存取您的位置資訊來顯示地圖</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>我們需要你的位置資訊來提供更好的服務。</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>我們需要你的位置資訊來提供更好的服務。</string>
+	<key>NSMotionUsageDescription</key>
+	<string>我們需要使用您的移動資訊來提供定位服務。</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

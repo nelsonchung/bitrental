@@ -634,6 +634,8 @@ PODS:
   - AppAuth/Core (1.6.2)
   - AppAuth/ExternalUserAgent (1.6.2):
     - AppAuth/Core
+  - background_fetch (1.2.0):
+    - Flutter
   - BoringSSL-GRPC (0.0.24):
     - BoringSSL-GRPC/Implementation (= 0.0.24)
     - BoringSSL-GRPC/Interface (= 0.0.24)
@@ -645,6 +647,9 @@ PODS:
     - firebase_core
     - Flutter
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - CocoaLumberjack (3.7.4):
+    - CocoaLumberjack/Core (= 3.7.4)
+  - CocoaLumberjack/Core (3.7.4)
   - Firebase/Auth (10.12.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 10.12.0)
@@ -697,6 +702,9 @@ PODS:
     - leveldb-library (~> 1.22)
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - Flutter (1.0.0)
+  - flutter_background_geolocation (4.11.1):
+    - CocoaLumberjack (~> 3.7.2)
+    - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -818,11 +826,13 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - background_fetch (from `.symlinks/plugins/background_fetch/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - Flutter (from `Flutter`)
+  - flutter_background_geolocation (from `.symlinks/plugins/flutter_background_geolocation/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
@@ -837,6 +847,7 @@ SPEC REPOS:
     - abseil
     - AppAuth
     - BoringSSL-GRPC
+    - CocoaLumberjack
     - Firebase
     - FirebaseAppCheckInterop
     - FirebaseAuth
@@ -857,6 +868,8 @@ SPEC REPOS:
     - PromisesObjC
 
 EXTERNAL SOURCES:
+  background_fetch:
+    :path: ".symlinks/plugins/background_fetch/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   firebase_auth:
@@ -867,6 +880,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_database/ios"
   Flutter:
     :path: Flutter
+  flutter_background_geolocation:
+    :path: ".symlinks/plugins/flutter_background_geolocation/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   google_maps_flutter_ios:
@@ -887,8 +902,10 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: 926fb7a82dc6d2b8e1f2ed7f3a718bce691d1e46
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
+  background_fetch: 79229f3677f19e1851b8e46d051720842e25a7fc
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   cloud_firestore: 005e157ad342dbfb2e461cb111a9020aa71bfb22
+  CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
   Firebase: 07150e75d142fb9399f6777fa56a187b17f833a0
   firebase_auth: 3f7820b22557dd4a1b024f4d86947d1a0ff8a10f
   firebase_core: e477125798fc37cd4ab43ca6a8536bf7e0929c00
@@ -900,6 +917,7 @@ SPEC CHECKSUMS:
   FirebaseDatabase: 6d998d7ef2c1723b3e798a85e61a7dc0504b1ea0
   FirebaseFirestore: f94c9541515fa4a49af52269bbc50349009424b4
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_background_geolocation: cbf42fef11105bc568488a103116ccfd3f099788
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   google_maps_flutter_ios: abdac20d6ce8931f6ebc5f46616df241bfaa2cfd

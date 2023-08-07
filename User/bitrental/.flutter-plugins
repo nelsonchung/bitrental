@@ -1,4 +1,5 @@
 # This is a generated file; do not edit or check into version control.
+background_fetch=/Users/nelsonchung/.pub-cache/hosted/pub.dev/background_fetch-1.2.0/
 cloud_firestore=/Users/nelsonchung/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.4/
 cloud_firestore_web=/Users/nelsonchung/.pub-cache/hosted/pub.dev/cloud_firestore_web-3.6.3/
 firebase_auth=/Users/nelsonchung/.pub-cache/hosted/pub.dev/firebase_auth-4.7.2/
@@ -7,6 +8,7 @@ firebase_core=/Users/nelsonchung/.pub-cache/hosted/pub.dev/firebase_core-2.15.0/
 firebase_core_web=/Users/nelsonchung/.pub-cache/hosted/pub.dev/firebase_core_web-2.6.0/
 firebase_database=/Users/nelsonchung/.pub-cache/hosted/pub.dev/firebase_database-10.2.4/
 firebase_database_web=/Users/nelsonchung/.pub-cache/hosted/pub.dev/firebase_database_web-0.2.3+4/
+flutter_background_geolocation=/Users/nelsonchung/.pub-cache/hosted/pub.dev/flutter_background_geolocation-4.11.1/
 flutter_plugin_android_lifecycle=/Users/nelsonchung/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.15/
 geolocator=/Users/nelsonchung/.pub-cache/hosted/pub.dev/geolocator-9.0.2/
 geolocator_android=/Users/nelsonchung/.pub-cache/hosted/pub.dev/geolocator_android-4.2.0/
