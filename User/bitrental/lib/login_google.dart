@@ -51,9 +51,15 @@ class _LoginGooglePageState extends State<LoginGooglePage> {
       // Handle any errors that occurred during the Google Sign In process
       print('Error occurred during Google Sign In: $error');
 
-      // Show a failure message using SnackBar
-      final snackBar = SnackBar(content: Text('登入失敗！'));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      if (error is FirebaseAuthException) {
+        // Handle FirebaseAuthException
+        final snackBar = SnackBar(content: Text('登入失敗：${error.message}'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
+        // Handle other types of errors
+        final snackBar = SnackBar(content: Text('登入失敗！'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
     }
   }
 
