@@ -4,27 +4,15 @@
         "status": "Free"
     },
     {
-        "car_name": "LM",
+        "car_name": "VITO",
+        "status": "Free"
+    },
+    {
+        "car_name": "L350 LWB",
         "status": "Ongoing"
     },
     {
         "car_name": "Model3",
-        "status": "Ongoing"
-    },
-    {
-        "car_name": "ModelX",
-        "status": "Free"
-    },
-    {
-        "car_name": "V-class",
-        "status": "Ongoing"
-    },
-    {
-        "car_name": "ModelS",
-        "status": "Free"
-    },
-    {
-        "car_name": "ModelY",
         "status": "Free"
     }
 ]
