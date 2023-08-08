@@ -27,7 +27,7 @@ class _ActivityPageState extends State<ActivityPage> {
         //heartbeatInterval: 5,
         stopOnTerminate: false,
         startOnBoot: true,
-        debug: true,
+        debug: false,
         logLevel: bg.Config.LOG_LEVEL_ERROR,
     )).then((bg.State state) {
         if (!state.enabled) {
