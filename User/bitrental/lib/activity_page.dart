@@ -24,11 +24,11 @@ class _ActivityPageState extends State<ActivityPage> {
     bg.BackgroundGeolocation.ready(bg.Config(
         desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
         distanceFilter: 10.0,
-        heartbeatInterval: 5,
+        //heartbeatInterval: 5,
         stopOnTerminate: false,
         startOnBoot: true,
         debug: true,
-        logLevel: bg.Config.LOG_LEVEL_VERBOSE,
+        logLevel: bg.Config.LOG_LEVEL_ERROR,
     )).then((bg.State state) {
         if (!state.enabled) {
           bg.BackgroundGeolocation.start();
