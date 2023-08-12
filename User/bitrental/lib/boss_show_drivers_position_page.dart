@@ -82,8 +82,9 @@ class _BossShowDriversPositionPageState
       querySnapshot.docs.forEach((doc) {
         double latitude = doc['latitude'];
         double longitude = doc['longitude'];
-        String driverId = doc['id'];
+        String driverid = doc['id'];
         String displayName = doc['displayName'];
+        String updatetime = doc['updatetime']; //Get current time from the data.
 
         /* Debug use
         // 顯示司機的資訊: 
@@ -100,9 +101,9 @@ class _BossShowDriversPositionPageState
         if (true) {
         // 如果司機 ID 在 markers 中已存在，且座標有變化，則更新該司機的標記
         /*
-        if (markers.containsKey(driverId) &&
-            markers[driverId]!.position.latitude != latitude &&
-            markers[driverId]!.position.longitude != longitude) {
+        if (markers.containsKey(driverid) &&
+            markers[driverid]!.position.latitude != latitude &&
+            markers[driverid]!.position.longitude != longitude) {
                 */
             setState(() {
             
@@ -117,12 +118,12 @@ class _BossShowDriversPositionPageState
             );
             */
 
-            markers[driverId] = Marker(
-              markerId: MarkerId(driverId),
+            markers[driverid] = Marker(
+              markerId: MarkerId(driverid),
               position: LatLng(latitude, longitude),
               infoWindow: InfoWindow(
-                title: '司機 $driverId',
-                snippet: '稱呼: $displayName, 緯度: $latitude, 經度: $longitude',
+                title: '司機 $driverid',
+                snippet: '稱呼: $displayName, 緯度: $latitude, 經度: $longitude, 最新更新時間: $updatetime', 
               ),
               icon: BitmapDescriptor.defaultMarker, // 將標記顏色設為預設的紅色
             );
@@ -141,12 +142,12 @@ class _BossShowDriversPositionPageState
             */
 
           // 否則建立新的司機標記
-          markers[driverId] = Marker(
-            markerId: MarkerId(driverId),
+          markers[driverid] = Marker(
+            markerId: MarkerId(driverid),
             position: LatLng(latitude, longitude),
             infoWindow: InfoWindow(
-              title: '司機 $driverId',
-              snippet: '稱呼: $displayName, 緯度: $latitude, 經度: $longitude',
+              title: '司機 $driverid',
+              snippet: '稱呼: $displayName, 緯度: $latitude, 經度: $longitude, 最新更新時間: $updatetime',
             ),
             icon: BitmapDescriptor.defaultMarker, // 將標記顏色設為預設的紅色
           );

@@ -136,7 +136,7 @@ class DriversPage extends StatelessWidget {
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: DataTable(
-                columnSpacing: 20.0,
+                columnSpacing: 30.0,
                 columns: const [
                   DataColumn(
                     label: Text(
@@ -238,9 +238,12 @@ class VehiclesPage extends StatelessWidget {
                           car.id.toString().padLeft(2, '0'),
                           style: TextStyle(color: Colors.white),
                         )),
-                        DataCell(Text(
-                          car.carName,
-                          style: TextStyle(color: Colors.white),
+                        DataCell(Container(
+                          width: 60, // 設定適當的寬度
+                          child: Text(
+                            car.carName,
+                            style: TextStyle(color: Colors.white),
+                          ),
                         )),
                         DataCell(Text(
                           car.status,
