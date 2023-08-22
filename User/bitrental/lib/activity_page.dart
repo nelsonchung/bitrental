@@ -37,21 +37,17 @@ class _ActivityPageState extends State<ActivityPage> {
         }
     });
 
-
-
-// 設定每秒上傳一次的計時器
-//Timer.periodic(Duration(seconds: 1), (timer) { //Timer Debug
-    // Listen for location updates
     bg.BackgroundGeolocation.onLocation((bg.Location location) {
       // Upload location to Firebase
       String userId = userData!['id'] ?? '未提供';
       String displayName = userData!['displayName'] ?? '未提供';
       double latitude = location.coords.latitude;
       double longitude = location.coords.longitude;
+      double speed = location.coords.speed; //速度
       String currentTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()); // Get current time.
 
       // Show location information
-      final snackBar = SnackBar(content: Text('ID: $userId\n司機名稱: $displayName\n緯度: $latitude\n經度: $longitude'));
+      final snackBar = SnackBar(content: Text('ID: $userId\n司機名稱: $displayName\n緯度: $latitude\n經度: $longitude\n速度: $speed'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       
       FirebaseFirestore.instance.collection('locations').doc(userId).set({
@@ -59,48 +55,18 @@ class _ActivityPageState extends State<ActivityPage> {
         'displayName': displayName,
         'latitude': latitude,
         'longitude': longitude,
+        'speed': speed,  // 上傳車速到 Firestore
         'updatetime': currentTime, // Add current time to the data.
       }, SetOptions(merge: true)).then((_) {
-        _showUploadSuccessSnackBar(userId, displayName, latitude, longitude); // Show successful upload message
+        _showUploadSuccessSnackBar(userId, displayName, latitude, longitude, speed); // Show successful upload message
       }).catchError((error) {
         print('Error occurred while uploading data: $error');
         final snackBar = SnackBar(content: Text('位置資訊上傳失敗'));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       });
     });
-//}); // Timer Debug
+
   }
-  //});
-
-/*Original design
-    // Listen for location updates
-    bg.BackgroundGeolocation.onLocation((bg.Location location) {
-      // Upload location to Firebase
-      String userId = userData!['id'] ?? '未提供';
-      String displayName = userData!['displayName'] ?? '未提供';
-      double latitude = location.coords.latitude;
-      double longitude = location.coords.longitude;
-      String currentTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()); // Get current time.
-
-      // Show location information
-      final snackBar = SnackBar(content: Text('ID: $userId\n司機名稱: $displayName\n緯度: $latitude\n經度: $longitude'));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      
-      FirebaseFirestore.instance.collection('locations').doc(userId).set({
-        'id': userId,
-        'displayName': displayName,
-        'latitude': latitude,
-        'longitude': longitude,
-        'updatetime': currentTime, // Add current time to the data.
-      }, SetOptions(merge: true)).then((_) {
-        _showUploadSuccessSnackBar(userId, displayName, latitude, longitude); // Show successful upload message
-      }).catchError((error) {
-        print('Error occurred while uploading data: $error');
-        final snackBar = SnackBar(content: Text('位置資訊上傳失敗'));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      });
-    });
-*/
 
   Future<void> _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
@@ -113,10 +79,10 @@ class _ActivityPageState extends State<ActivityPage> {
     }
   }
 
-  void _showUploadSuccessSnackBar(String id, String displayName, double latitude, double longitude) {
+  void _showUploadSuccessSnackBar(String id, String displayName, double latitude, double longitude, double speed) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('位置資訊上傳成功！\nID: $id\nDisplayName: $displayName\n緯度: $latitude\n經度: $longitude'),
+        content: Text('位置資訊上傳成功！\nID: $id\nDisplayName: $displayName\n緯度: $latitude\n經度: $longitude\n速度: $speed'),
         duration: Duration(seconds: 2),
       ),
     );

@@ -36,9 +36,9 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _handleLocalLogin(BuildContext context) async {
     String username = _usernameController.text.trim();
     String password = _passwordController.text;
-    //
+    //彭小哥 2023/8/22 跟我說密碼太複雜，要我改成簡單一點。願意用綠寶石來換。我馬上答應要改。
     String nelson_username = "bitrental";
-    String nelson_password = "makeafortune";
+    String nelson_password = "peng";
 
     if (_accountsData == null) {
       return;
