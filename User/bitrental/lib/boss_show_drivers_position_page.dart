@@ -84,6 +84,7 @@ class _BossShowDriversPositionPageState
         double longitude = doc['longitude'];
         String driverid = doc['id'];
         String displayName = doc['displayName'];
+        double speed = doc['speed'];
         String updatetime = doc['updatetime']; //Get current time from the data.
 
         /* Debug use
@@ -123,7 +124,7 @@ class _BossShowDriversPositionPageState
               position: LatLng(latitude, longitude),
               infoWindow: InfoWindow(
                 title: '司機 $driverid',
-                snippet: '稱呼: $displayName, 緯度: $latitude, 經度: $longitude, 最新更新時間: $updatetime', 
+                snippet: '稱呼: $displayName, 緯度: $latitude, 經度: $longitude, 車速: $speed, 最新更新時間: $updatetime', 
               ),
               icon: BitmapDescriptor.defaultMarker, // 將標記顏色設為預設的紅色
             );
@@ -147,7 +148,7 @@ class _BossShowDriversPositionPageState
             position: LatLng(latitude, longitude),
             infoWindow: InfoWindow(
               title: '司機 $driverid',
-              snippet: '稱呼: $displayName, 緯度: $latitude, 經度: $longitude, 最新更新時間: $updatetime',
+              snippet: '稱呼: $displayName, 緯度: $latitude, 經度: $longitude, 車速: $speed, 最新更新時間: $updatetime',
             ),
             icon: BitmapDescriptor.defaultMarker, // 將標記顏色設為預設的紅色
           );
