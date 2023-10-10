@@ -4,19 +4,23 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 /* Original design
 void main() {
   runApp(MyApp());
 }
 */
 
+
 void main() async {
   print("Enter the man function");  // Debug print
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // Initialize Firebase
+  //WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp();
   print("Firebase initialized");  // Debug print
   runApp(MyApp());
 }
+
 
 
 

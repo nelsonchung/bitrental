@@ -55,5 +55,32 @@
       });
     });
   </script>
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+
+  <script>
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "firebase/app";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAIINi9DE56068MDXjv1LTgc3QieGFYXuY",
+      authDomain: "bitrental-ef1a2.firebaseapp.com",
+      databaseURL: "https://bitrental-ef1a2-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "bitrental-ef1a2",
+      storageBucket: "bitrental-ef1a2.appspot.com",
+      messagingSenderId: "552892352955",
+      appId: "1:552892352955:web:febccfddc56da95ca69c9e"
+    };
+    // Initialize Firebase
+    //firebase.initializeApp(firebaseConfig);
+    const app = initializeApp(firebaseConfig);
+  </script>
+
 </body>
 </html>
