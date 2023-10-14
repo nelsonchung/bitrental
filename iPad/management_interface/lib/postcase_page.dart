@@ -37,6 +37,9 @@ class _PostCasePageState extends State<PostCasePage> {
   TimeOfDay selectedTime = TimeOfDay.now();
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
+  DateTime pickupDate = DateTime.now();
+  TimeOfDay pickupTime = TimeOfDay.now();
+
   // New variables for dropdowns
   String? pickupLocation;
   String? dropoffLocation;
@@ -101,28 +104,26 @@ class _PostCasePageState extends State<PostCasePage> {
     return DateFormat('yyyyMMddHHmmssSSS').format(now);
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context, DateTime currentSelectedDate, Function updateDate) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: currentSelectedDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-      });
+    if (picked != null && picked != currentSelectedDate) {
+      updateDate(picked);
+    }
   }
 
-  Future<void> _selectTime(BuildContext context) async {
+  Future<void> _selectTime(BuildContext context, TimeOfDay currentSelectedTime, Function updateTime) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: selectedTime,
+      initialTime: currentSelectedTime,
     );
-    if (picked != null && picked != selectedTime)
-      setState(() {
-        selectedTime = picked;
-      });
+    if (picked != null && picked != currentSelectedTime) {
+      updateTime(picked);
+    }
   }
 
   Future<void> _sendToFirebase(BuildContext context) async {
@@ -133,15 +134,12 @@ class _PostCasePageState extends State<PostCasePage> {
     String dropoffLocationFull = "$dropoffSelectedCity, $dropoffSelectedDistrict, $dropoffDetailedAddress";
     
     CollectionReference travelData = FirebaseFirestore.instance.collection('travelData');
-    //return travelData.add({
     return travelData
         .doc(caseId)  // Use the generated caseId as the document ID
         .set({      
       'flightNumber': flightNumber,  // 新增這個字段
       'travelDate': formatter.format(selectedDate),
       'travelTime': selectedTime.format(context),
-      //'pickupLocation': pickupLocationFull,
-      //'dropoffLocation': dropoffLocationFull,
       'pickupSelectedCity': pickupSelectedCity,
       'pickupSelectedDistrict': pickupSelectedDistrict,
       'pickupDetailedAddress': pickupDetailedAddress,
@@ -155,6 +153,8 @@ class _PostCasePageState extends State<PostCasePage> {
       'remarks': remarks,
       'driverID': driverID,
       'statusCase': statusCase,
+      'pickupDate': formatter.format(pickupDate),
+      'pickupTime': pickupTime.format(context),      
     })
     .then((value) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -185,17 +185,29 @@ class _PostCasePageState extends State<PostCasePage> {
       padding: const EdgeInsets.all(16.0),
       child: ListView(
         children: <Widget>[
-
+          // 航班日期
           Text("航班日期:", style: TextStyle(fontFamily: 'NotoSansTC')),
           TextButton(
-            onPressed: () => _selectDate(context),
+            onPressed: () => _selectDate(context, selectedDate, (newDate) => setState(() => selectedDate = newDate)),
             child: Text(formatter.format(selectedDate)),
           ),
+          // 航班時間
           Text("航班時間:", style: TextStyle(fontFamily: 'NotoSansTC')),
           TextButton(
-            onPressed: () => _selectTime(context),
+            onPressed: () => _selectTime(context, selectedTime, (newTime) => setState(() => selectedTime = newTime)),
             child: Text(selectedTime.format(context)),
           ),
+          // 添加上車日期和時間
+          Text("上車日期:", style: TextStyle(fontFamily: 'NotoSansTC')),
+          TextButton(
+            onPressed: () => _selectDate(context, pickupDate, (newDate) => setState(() => pickupDate = newDate)),
+            child: Text(formatter.format(pickupDate)),
+          ),
+          Text("上車時間:", style: TextStyle(fontFamily: 'NotoSansTC')),
+          TextButton(
+            onPressed: () => _selectTime(context, pickupTime, (newTime) => setState(() => pickupTime = newTime)),
+            child: Text(pickupTime.format(context)),
+          ),          
           TextFormField(
             decoration: InputDecoration(labelText: "航班編號:"),
             onChanged: (value) {

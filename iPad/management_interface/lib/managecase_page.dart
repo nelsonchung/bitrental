@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class ManageCasePage extends StatefulWidget {
   @override
@@ -12,6 +13,8 @@ class _ManageCasePageState extends State<ManageCasePage> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  DateTime pickupDate = DateTime.now();
+  TimeOfDay pickupTime = TimeOfDay.now();
 
   // Initialize your variables here, similar to PostCasePage
   String? flightNumber;
@@ -77,6 +80,11 @@ class _ManageCasePageState extends State<ManageCasePage> {
         DateFormat dateFormat = DateFormat("yyyy-MM-dd h:mm a");
         DateTime dateTime = dateFormat.parse("2023-01-01 ${caseData['travelTime']}");
         selectedTime = TimeOfDay.fromDateTime(dateTime);
+
+        pickupDate = DateFormat('yyyy-MM-dd').parse(caseData['pickupDate']);
+        DateTime pickupDateTime = DateFormat("yyyy-MM-dd h:mm a").parse("2023-01-01 ${caseData['pickupTime']}");
+        pickupTime = TimeOfDay.fromDateTime(pickupDateTime);
+
         //selectedTime = TimeOfDay.fromDateTime(DateTime.parse('2023-01-01 ${caseData['travelTime']}'));
         //pickupLocationFull = caseData['pickupLocation'];
         //dropoffLocationFull = caseData['dropoffLocation'];
@@ -107,6 +115,8 @@ class _ManageCasePageState extends State<ManageCasePage> {
         'flightNumber': flightNumber,
         'travelDate': formatter.format(selectedDate),
         'travelTime': selectedTime.format(context),
+        'pickupDate': formatter.format(pickupDate),
+        'pickupTime': pickupTime.format(context),
         //'pickupLocation': pickupLocationFull,
         //'dropoffLocation': dropoffLocationFull,
         'numberOfPassengers': numberOfPassengers,
@@ -202,6 +212,36 @@ class _ManageCasePageState extends State<ManageCasePage> {
                             });
                         },
                         child: Text("選擇時間: ${selectedTime.format(context)}"),
+                        ),
+                        // 上車日期
+                        ElevatedButton(
+                            onPressed: () async {
+                                final DateTime? picked = await showDatePicker(
+                                context: context,
+                                initialDate: pickupDate,
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2101),
+                                );
+                                if (picked != null && picked != pickupDate)
+                                setState(() {
+                                    pickupDate = picked;
+                                });
+                            },
+                            child: Text("選擇上車日期: ${formatter.format(pickupDate)}"),
+                        ),
+                        // 上車時間
+                        ElevatedButton(
+                            onPressed: () async {
+                                final TimeOfDay? picked = await showTimePicker(
+                                context: context,
+                                initialTime: pickupTime,
+                                );
+                                if (picked != null && picked != pickupTime)
+                                setState(() {
+                                    pickupTime = picked;
+                                });
+                            },
+                            child: Text("選擇上車時間: ${pickupTime.format(context)}"),
                         ),
                         // 上車地點
                         TextFormField(

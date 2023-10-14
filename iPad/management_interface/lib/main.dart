@@ -19,7 +19,7 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'dart:convert';
-
+import 'main_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BIT RENTAL 設計：Nelson',
-      home: MyHomePage(),
+      //home: MyHomePage(), //original page
+      home: MainPage(),
     );
   }
 }
