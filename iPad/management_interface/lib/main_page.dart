@@ -21,6 +21,7 @@ import 'postcase_page.dart';
 //import 'product_list_page.dart';
 import 'profile_page.dart';
 import 'managecase_page.dart';
+import 'searchcase_page.dart';
 
 
 class MainPage extends StatefulWidget {
@@ -33,7 +34,8 @@ class _MainPageState extends State<MainPage> {
 
   List<Widget> _pages = [
     PostCasePage(),      // postcase_page
-    ManageCasePage(),    // managecase_page
+    //ManageCasePage(),    // managecase_page
+    SearchCasePage(),     // searchcase_page
     ProfilePage(),       // profile_page
   ];
 

@@ -32,12 +32,14 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /*
       //backgroundColor: Color(0xFF4CAD73),
       appBar: AppBar(
         title: Text('個人資料', style: TextStyle(color: Colors.white)),
         //backgroundColor: Color(0xFF4CAD73),
         elevation: 0,
       ),
+      */
       body: Stack(
         children: [
           // 背景圖片
