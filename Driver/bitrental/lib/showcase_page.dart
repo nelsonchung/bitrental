@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'login_page.dart';
 
 class ShowCasePage extends StatefulWidget {
   final String driverID;  // 新增 driverID
@@ -190,6 +191,18 @@ Future<void> _fetchSelectedDateCaseIds(DateTime date) async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('案例資訊'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => LoginPage()),
+              (Route<dynamic> route) => false,
+            );
+          },
+        ),
+      ),
       body: Stack(
         children: [
           // 背景圖片

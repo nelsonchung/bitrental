@@ -232,6 +232,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 60.0),
+                  /*
                   SizedBox(height: 20.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -243,7 +245,8 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                     ],
-                  ),          
+                  ),   
+                  */       
                   Container(
                     width: double.infinity,
                     height: 50.0,
@@ -260,6 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(
                           color: Color.fromRGBO(187, 162, 125, 1), // 更新顏色
                           fontFamily: 'BungeeInline', // 更新字體
+                          fontSize: 24.0, // 增加文字大小，可以根據需要調整
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -285,8 +289,7 @@ class _LoginPageState extends State<LoginPage> {
                         primary: Colors.white,
                       ),
                     ),
-                  ),
-                  */                
+                  ),                
                   SizedBox(height: 20.0),
                   Center(
                     child: Row(
@@ -301,7 +304,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
