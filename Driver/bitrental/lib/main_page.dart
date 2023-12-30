@@ -19,6 +19,7 @@
 import 'package:flutter/material.dart';
 import 'profile_page.dart';
 import 'showcase_page.dart';
+import 'activity_page.dart';
 
 
 class MainPage extends StatefulWidget {
@@ -47,6 +48,7 @@ class _MainPageState extends State<MainPage> {
     _pages = [
       ShowCasePage(driverID: widget.driverID),  // 在這裡使用 widget.driverID
       // 其他頁面...
+      ActivityPage(), 
       ProfilePage(),  // profile_page
     ];
   }
@@ -82,6 +84,10 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.post_add),
             label: 'Post Case',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.share_location),
+            label: 'GPS',
           ),
           /*
           BottomNavigationBarItem(

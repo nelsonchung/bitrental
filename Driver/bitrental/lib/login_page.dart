@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
 
       // Save user data to shared preferences using JSON serialization
       final userData = {
-        'id': '', // Since you are not using FirebaseAuth, this could be empty or a custom ID
+        'id': account, // Since you are not using FirebaseAuth, this could be empty or a custom ID
         'displayName': account, // Display name if you have any, otherwise could be empty
         'account': account, // Store the account
         'photoUrl': '', // Photo URL if you have any, otherwise could be empty
